@@ -10,9 +10,19 @@ namespace CatalogAPI.Products.CreateProduct
 
     internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
-        Task<CreateProductResult> IRequestHandler<CreateProductCommand, CreateProductResult>.Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            
+            var product = new Product
+            {
+                Name = command.CreateProductRequest.Name,
+                Category = command.CreateProductRequest.Category,
+                Description = command.CreateProductRequest.Description,
+                ImageFile = command.CreateProductRequest.ImageFile,
+                Price = command.CreateProductRequest.Price,
+
+            };
+
+            return new CreateProductResponseDTO(Guid.NewGuid());
         }
     }   
 }
