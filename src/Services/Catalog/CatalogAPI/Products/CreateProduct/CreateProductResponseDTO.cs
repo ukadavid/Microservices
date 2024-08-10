@@ -1,7 +1,10 @@
-﻿namespace CatalogAPI.Products.CreateProduct
+﻿public class CreateProductResponseDTO
 {
-    public class CreateProductResponseDTO
+    public Guid Id { get; set; }
+
+    // Constructor to initialize the Guid
+    public CreateProductResponseDTO(Guid id)
     {
-        public Guid id { get; set; }
+        Id = id;
     }
 }

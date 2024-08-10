@@ -11,7 +11,7 @@ namespace CatalogAPI.Products.CreateProduct
                 var command = request.Adapt<CreateProductCommand>();
                 var result = await sender.Send(command);
                 var response = result.Adapt<CreateProductResponseDTO>();
-                return Results.Created($"/product/{response.id}", response);
+                return Results.Created($"/product/{response.Id}", response);
             })
                 .WithName("Create Product")
                 .Produces<CreateProductResponseDTO>(StatusCodes.Status201Created)

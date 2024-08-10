@@ -1,24 +1,24 @@
 ﻿using BuildingBlocks.CQRS;
+using CatalogAPI.Models;
 using MediatR;
 
 namespace CatalogAPI.Products.CreateProduct
 {
 
-    public record CreateProductCommand(CreateProductDTO CreateProductRequest) : ICommand<CreateProductResult>;
-    
-    public record CreateProductResult(Guid Id);
+    public record CreateProductCommand(string Name, List<string> Category, string Description, string ImageFile, int Price) : ICommand<CreateProductResponseDTO>;
 
-    internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+
+    internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResponseDTO>
     {
-        public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<CreateProductResponseDTO> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var product = new Product
             {
-                Name = command.CreateProductRequest.Name,
-                Category = command.CreateProductRequest.Category,
-                Description = command.CreateProductRequest.Description,
-                ImageFile = command.CreateProductRequest.ImageFile,
-                Price = command.CreateProductRequest.Price,
+                Name = command.Name,
+                Category = command.Category,
+                Description = command.Description,
+                ImageFile = command.ImageFile,
+                Price = command.Price,
 
             };
 
