@@ -8,7 +8,7 @@ namespace CatalogAPI.Products.CreateProduct
     public record CreateProductCommand(string Name, List<string> Category, string Description, string ImageFile, int Price) : ICommand<CreateProductResponseDTO>;
 
 
-    internal class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreateProductResponseDTO>
+    internal class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResponseDTO>
     {
         public async Task<CreateProductResponseDTO> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
@@ -22,7 +22,10 @@ namespace CatalogAPI.Products.CreateProduct
 
             };
 
-            return new CreateProductResponseDTO(Guid.NewGuid());
+            session.Store(product);
+            await session.SaveChangesAsync(cancellationToken);
+
+            return new CreateProductResponseDTO(product.Id);
         }
     }   
 }
